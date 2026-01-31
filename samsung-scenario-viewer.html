@@ -1,0 +1,1741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Samsung User Retention - Scenario Viewer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: #8b9dc3;
+            font-size: 14px;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 30px;
+        }
+
+        /* Controls Panel */
+        .controls-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .controls-panel h2 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .special-scenarios {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .special-scenarios h3 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #8b9dc3;
+            margin-bottom: 12px;
+        }
+
+        .special-scenarios label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .special-scenarios label:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .condition-group {
+            margin-bottom: 16px;
+        }
+
+        .condition-group label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .condition-group label:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .condition-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .condition-name {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .condition-desc {
+            font-size: 11px;
+            color: #8b9dc3;
+            margin-top: 2px;
+        }
+
+        /* Toggle Switch - Green/Red */
+        .toggle {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ef4444;
+            transition: 0.3s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+
+        .toggle input:checked + .toggle-slider {
+            background-color: #10b981;
+        }
+
+        .toggle input:checked + .toggle-slider:before {
+            transform: translateX(20px);
+        }
+
+        .toggle input:disabled + .toggle-slider {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* Results Panel */
+        .results-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .segment-info {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .segment-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .segment-id {
+            background: #0078d4;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .segment-name {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .segment-meta {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .meta-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 16px;
+            border-radius: 12px;
+        }
+
+        .meta-card h4 {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #8b9dc3;
+            margin-bottom: 8px;
+        }
+
+        .meta-card p {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .status-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .status-card {
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .status-card.done {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .status-card.todo {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+        }
+
+        .status-card h4 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .status-card.done h4 {
+            color: #10b981;
+        }
+
+        .status-card.todo h4 {
+            color: #fbbf24;
+        }
+
+        .status-card p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #e0e0e0;
+        }
+
+        .status-card.clickable {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .status-card.clickable:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .status-card.clickable.selected {
+            outline: 2px solid;
+            outline-offset: 2px;
+        }
+
+        .status-card.done.selected {
+            outline-color: #10b981;
+        }
+
+        .status-card.todo.selected {
+            outline-color: #fbbf24;
+        }
+
+        .status-card .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 12px;
+            color: #8b9dc3;
+        }
+
+        .status-card .asset-count {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .status-card .view-hint {
+            opacity: 0.7;
+        }
+
+        /* Phone Preview */
+        .preview-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .preview-section h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .preview-container {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .phone-frame {
+            width: 300px;
+            height: 650px;
+            background: #1a1a1a;
+            border-radius: 40px;
+            padding: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .phone-frame::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90px;
+            height: 28px;
+            background: #000;
+            border-radius: 14px;
+            z-index: 10;
+        }
+
+        .design-tbd-badge {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #000;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 20;
+            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+            display: none;
+        }
+
+        .phone-frame.show-tbd .design-tbd-badge {
+            display: block;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: #000;
+            border-radius: 32px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .phone-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+            position: relative;
+        }
+
+        .phone-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            display: block;
+        }
+
+        .phone-content img.half-page {
+            height: 50%;
+            object-fit: contain;
+            object-position: bottom center;
+            margin-top: auto;
+            margin-bottom: 0;
+        }
+
+        .phone-content.no-asset {
+            color: #666;
+            font-size: 14px;
+            text-align: center;
+            padding: 20px;
+            flex-direction: column;
+        }
+
+        /* Split Image Animation (for merged screenshots) */
+        .split-image-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .split-image-container img {
+            width: 200%;
+            height: 100%;
+            object-fit: cover;
+            object-position: left center;
+            transition: object-position 0.6s ease-in-out;
+        }
+
+        .split-image-container img.show-right {
+            object-position: right center;
+        }
+
+        .split-indicators {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 10;
+        }
+
+        .split-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .split-indicator.active {
+            background: #fff;
+        }
+
+        .swipe-hint {
+            text-align: center;
+            color: #8b9dc3;
+            font-size: 12px;
+            margin-top: 12px;
+        }
+
+        /* Slideshow */
+        .slideshow-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slideshow-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .slideshow-container img.active {
+            opacity: 1;
+        }
+
+        .slideshow-indicators {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 10;
+        }
+
+        .slideshow-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .slideshow-indicator.active {
+            background: #fff;
+        }
+
+        .slideshow-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: #0078d4;
+            transition: width 0.1s linear;
+        }
+
+        /* Arrow Navigation */
+        .phone-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-arrow {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .nav-arrow:hover:not(:disabled) {
+            background: rgba(0, 120, 212, 0.3);
+            border-color: #0078d4;
+        }
+
+        .nav-arrow:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .step-counter {
+            font-size: 14px;
+            color: #8b9dc3;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .step-counter .current {
+            color: #fff;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .step-label {
+            text-align: center;
+            color: #8b9dc3;
+            font-size: 13px;
+            margin-top: 8px;
+            min-height: 20px;
+        }
+
+        .step-dots {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 12px;
+        }
+
+        .step-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .step-dot.active {
+            background: #0078d4;
+            transform: scale(1.2);
+        }
+
+        .step-dot:hover {
+            background: rgba(0, 120, 212, 0.6);
+        }
+
+        /* Teaching Toast */
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .toast {
+            background: rgba(30, 30, 46, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 14px 20px;
+            color: #fff;
+            font-size: 14px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            pointer-events: auto;
+            max-width: 400px;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast-icon {
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .toast-message {
+            line-height: 1.4;
+        }
+
+        .toast-message strong {
+            color: #0078d4;
+        }
+
+        .toast-action {
+            background: #0078d4;
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.2s;
+        }
+
+        .toast-action:hover {
+            background: #1084d8;
+        }
+
+        .no-match {
+            text-align: center;
+            padding: 60px 20px;
+            color: #8b9dc3;
+        }
+
+        .no-match h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .segment-meta {
+                grid-template-columns: 1fr;
+            }
+
+            .status-section {
+                grid-template-columns: 1fr;
+            }
+
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Samsung Partnership Transition</h1>
+            <p>User Retention Strategy & Execution Tracker</p>
+        </header>
+
+        <div class="main-content">
+            <div class="controls-panel">
+                <h2>User Conditions</h2>
+
+                <div class="condition-group">
+                    <label>
+                        <div class="condition-info">
+                            <span class="condition-name">PDF Viewer</span>
+                            <span class="condition-desc">Uses OneDrive for PDF viewing</span>
+                        </div>
+                        <div class="toggle">
+                            <input type="checkbox" id="toggle-pdf" onchange="updateSegment()">
+                            <span class="toggle-slider"></span>
+                        </div>
+                    </label>
+
+                    <label>
+                        <div class="condition-info">
+                            <span class="condition-name">Photos & Files Access</span>
+                            <span class="condition-desc">Permission granted for local files</span>
+                        </div>
+                        <div class="toggle">
+                            <input type="checkbox" id="toggle-pfa" onchange="updateSegment()">
+                            <span class="toggle-slider"></span>
+                        </div>
+                    </label>
+
+                    <label>
+                        <div class="condition-info">
+                            <span class="condition-name">Notifications</span>
+                            <span class="condition-desc">Push notifications allowed</span>
+                        </div>
+                        <div class="toggle">
+                            <input type="checkbox" id="toggle-np" onchange="updateSegment()">
+                            <span class="toggle-slider"></span>
+                        </div>
+                    </label>
+
+                    <label>
+                        <div class="condition-info">
+                            <span class="condition-name">Samsung Gallery Sync</span>
+                            <span class="condition-desc">Account linked with Samsung Gallery</span>
+                        </div>
+                        <div class="toggle">
+                            <input type="checkbox" id="toggle-sgs" onchange="updateSegment()">
+                            <span class="toggle-slider"></span>
+                        </div>
+                    </label>
+
+                    <label>
+                        <div class="condition-info">
+                            <span class="condition-name">Signed In</span>
+                            <span class="condition-desc">User has signed into OneDrive</span>
+                        </div>
+                        <div class="toggle">
+                            <input type="checkbox" id="toggle-si" onchange="updateSegment()">
+                            <span class="toggle-slider"></span>
+                        </div>
+                    </label>
+
+                    <label>
+                        <div class="condition-info">
+                            <span class="condition-name">Camera Roll Backup</span>
+                            <span class="condition-desc">Auto photo backup enabled</span>
+                        </div>
+                        <div class="toggle">
+                            <input type="checkbox" id="toggle-crb" onchange="updateSegment()">
+                            <span class="toggle-slider"></span>
+                        </div>
+                    </label>
+
+                    <label>
+                        <div class="condition-info">
+                            <span class="condition-name">Paid Subscription</span>
+                            <span class="condition-desc">Has active paid plan</span>
+                        </div>
+                        <div class="toggle">
+                            <input type="checkbox" id="toggle-paid" onchange="updateSegment()">
+                            <span class="toggle-slider"></span>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="special-scenarios">
+                    <h3>Special Scenarios</h3>
+                    <label>
+                        <div class="condition-info">
+                            <span class="condition-name">Former SGS User</span>
+                            <span class="condition-desc">Switched device, no longer on Samsung</span>
+                        </div>
+                        <div class="toggle">
+                            <input type="checkbox" id="toggle-former-sgs" onchange="handleFormerSGS()">
+                            <span class="toggle-slider"></span>
+                        </div>
+                    </label>
+                    <label>
+                        <div class="condition-info">
+                            <span class="condition-name">Over Quota</span>
+                            <span class="condition-desc">Storage limit exceeded</span>
+                        </div>
+                        <div class="toggle">
+                            <input type="checkbox" id="toggle-oq" onchange="handleOverQuota()">
+                            <span class="toggle-slider"></span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="results-panel" id="results-panel">
+                <!-- Results will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Teaching Toast -->
+    <div class="toast-container" id="toast-container">
+        <div class="toast" id="toast">
+            <span class="toast-icon">💡</span>
+            <span class="toast-message" id="toast-message"></span>
+            <button class="toast-action" id="toast-action" onclick="handleToastAction()">Enable</button>
+        </div>
+    </div>
+
+    <script>
+        // Segment data from the markdown
+        const segments = [
+            { id: '0', name: 'Former SGS (Switched Device)', pdf: 'na', pfa: 'na', np: 'na', sgs: true, si: 'na', crb: 'na', paid: 'na', oq: 'na', funnelGoal: 'Re-engage via email', channels: 'Email only', done: '', todo: 'Service mail scheduled for 2/27', isSpecial: 'former-sgs' },
+            { id: '1a', name: 'Dormant Install (No Permissions)', pdf: false, pfa: false, np: false, sgs: false, si: false, crb: false, paid: false, oq: false, funnelGoal: 'Grant permissions → Sign in', channels: 'In-app only', done: 'SSO experience with other MSA accounts on device', todo: 'Improved Sign-in page with Photos value prop' },
+            { id: '1b', name: 'Dormant Install (NP Only)', pdf: false, pfa: false, np: true, sgs: false, si: false, crb: false, paid: false, oq: false, funnelGoal: 'Sign in', channels: 'Push, In-app', done: 'Push notifications to users on OneDrive value prop. Encourage user to sign in.', todo: 'SSO sign-in experience' },
+            { id: '1c', name: 'Dormant Install (PFA Only)', pdf: false, pfa: true, np: false, sgs: false, si: false, crb: false, paid: false, oq: false, funnelGoal: 'Grant NP → Sign in', channels: 'In-app only', done: 'Turned on local MOJs for OTD and optimized sign-in flow by adding 1 more step to the disable flow', todo: 'SSO sign-in experience' },
+            { id: '1d', name: 'Dormant Install (Both Permissions)', pdf: false, pfa: true, np: true, sgs: false, si: false, crb: false, paid: false, oq: false, funnelGoal: 'Sign in', channels: 'Push, In-app', done: 'Local MOJ notifications increased in frequency; Push notifications to users on OneDrive value prop and encourage users to sign in.', todo: '' },
+            { id: '2a', name: 'PDF-Only (No Permissions)', pdf: true, pfa: false, np: false, sgs: false, si: false, crb: false, paid: false, oq: false, funnelGoal: 'Grant permissions → Sign in', channels: 'In-app only', done: '', todo: '"Medium"-like banner + sign-in flow' },
+            { id: '2b', name: 'PDF-Only (NP Only)', pdf: true, pfa: false, np: true, sgs: false, si: false, crb: false, paid: false, oq: false, funnelGoal: 'Sign in', channels: 'Push, In-app', done: 'Same as 1b', todo: 'Same as 1b', ref: '1b' },
+            { id: '2c', name: 'PDF-Only (PFA Only)', pdf: true, pfa: true, np: false, sgs: false, si: false, crb: false, paid: false, oq: false, funnelGoal: 'Grant NP → Sign in', channels: 'In-app only', done: 'Same as 1c', todo: 'Same as 1c', ref: '1c' },
+            { id: '2d', name: 'PDF-Only (Both Permissions)', pdf: true, pfa: true, np: true, sgs: false, si: false, crb: false, paid: false, oq: false, funnelGoal: 'Sign in', channels: 'Push, In-app', done: 'Same as 1d', todo: 'Same as 1d', ref: '1d' },
+            { id: '3a', name: 'Signed-In Passive (No Permissions)', pdf: false, pfa: false, np: false, sgs: false, si: true, crb: false, paid: false, oq: false, funnelGoal: 'Grant PFA → Enable CRB', channels: 'In-app only', done: 'Discounted annual SKU', todo: '' },
+            { id: '3b', name: 'Signed-In Passive (NP Only)', pdf: false, pfa: false, np: true, sgs: false, si: true, crb: false, paid: false, oq: false, funnelGoal: 'Grant PFA → Enable CRB', channels: 'Push, In-app', done: 'Discounted annual SKU', todo: 'Push and in-app notifications to encourage user to give photos access & turn on CRB' },
+            { id: '3c', name: 'Signed-In Passive (PFA Only)', pdf: false, pfa: true, np: false, sgs: false, si: true, crb: false, paid: false, oq: false, funnelGoal: 'Enable CRB', channels: 'In-app, Email', done: 'OTD MOJs, Will see People / Florence discovery once enabled on their account, Discounted Annual SKU', todo: 'In-app banner that CRB is off. Local MOJs' },
+            { id: '3d', name: 'Signed-In Passive (Both Permissions)', pdf: false, pfa: true, np: true, sgs: false, si: true, crb: false, paid: false, oq: false, funnelGoal: 'Enable CRB', channels: 'Push, In-app, Email', done: 'Same as 3c', todo: 'Same as 3c', ref: '3c' },
+            { id: '4a', name: 'Signed-In PDF (PFA Only)', pdf: true, pfa: true, np: false, sgs: false, si: true, crb: false, paid: false, oq: false, funnelGoal: 'Enable CRB', channels: 'In-app, Email', done: 'Same as 3c', todo: 'Same as 3c', ref: '3c' },
+            { id: '4b', name: 'Signed-In PDF (Both Permissions)', pdf: true, pfa: true, np: true, sgs: false, si: true, crb: false, paid: false, oq: false, funnelGoal: 'Enable CRB', channels: 'Push, In-app, Email', done: 'Same as 3d', todo: 'Same as 3d', ref: '3d' },
+            { id: 'SGS-0a', name: 'SGS Not Signed In (No Permissions)', pdf: false, pfa: false, np: false, sgs: true, si: false, crb: false, paid: false, oq: false, funnelGoal: 'Grant PFA → Sign in → Enable CRB', channels: 'In-app only', done: '', todo: 'PFA permission request for SGS users' },
+            { id: 'SGS-0b', name: 'SGS Not Signed In (NP Only)', pdf: false, pfa: false, np: true, sgs: true, si: false, crb: false, paid: false, oq: false, funnelGoal: 'Grant PFA → Sign in → Enable CRB', channels: 'Push, In-app', done: '', todo: 'Push notification about SGS migration; PFA permission request' },
+            { id: 'SGS-0c', name: 'SGS + PDF Not Signed In (No Permissions)', pdf: true, pfa: false, np: false, sgs: true, si: false, crb: false, paid: false, oq: false, funnelGoal: 'Grant PFA → Sign in → Enable CRB', channels: 'In-app only', done: 'Same as SGS-0a', todo: 'Same as SGS-0a', ref: 'SGS-0a' },
+            { id: 'SGS-0d', name: 'SGS + PDF Not Signed In (NP Only)', pdf: true, pfa: false, np: true, sgs: true, si: false, crb: false, paid: false, oq: false, funnelGoal: 'Grant PFA → Sign in → Enable CRB', channels: 'Push, In-app', done: 'Same as SGS-0b', todo: 'Same as SGS-0b', ref: 'SGS-0b' },
+            { id: 'SGS-1a', name: 'SGS Not Signed In (PFA Only)', pdf: false, pfa: true, np: false, sgs: true, si: false, crb: false, paid: false, oq: false, funnelGoal: 'Sign in → Enable CRB', channels: 'In-app only', done: '', todo: 'SGS migration banner directing users to sign into OneDrive' },
+            { id: 'SGS-1b', name: 'SGS Not Signed In (Both Permissions)', pdf: false, pfa: true, np: true, sgs: true, si: false, crb: false, paid: false, oq: false, funnelGoal: 'Sign in → Enable CRB', channels: 'Push, In-app', done: '', todo: 'Push notifications about SGS migration; In-app banner to sign in' },
+            { id: 'SGS-2a', name: 'SGS + PDF Not Signed In (PFA Only)', pdf: true, pfa: true, np: false, sgs: true, si: false, crb: false, paid: false, oq: false, funnelGoal: 'Sign in → Enable CRB', channels: 'In-app only', done: 'Same as SGS-1a', todo: 'Same as SGS-1a', ref: 'SGS-1a' },
+            { id: 'SGS-2b', name: 'SGS + PDF Not Signed In (Both Permissions)', pdf: true, pfa: true, np: true, sgs: true, si: false, crb: false, paid: false, oq: false, funnelGoal: 'Sign in → Enable CRB', channels: 'Push, In-app', done: 'Same as SGS-1b', todo: 'Same as SGS-1b', ref: 'SGS-1b' },
+            { id: '5c', name: 'Gallery Sync Signed In (No Permissions)', pdf: false, pfa: false, np: false, sgs: true, si: true, crb: false, paid: false, oq: false, funnelGoal: 'Grant PFA → Enable CRB', channels: 'In-app, Email', done: '', todo: 'PFA permission request for signed-in SGS users' },
+            { id: '5d', name: 'Gallery Sync Signed In (NP Only)', pdf: false, pfa: false, np: true, sgs: true, si: true, crb: false, paid: false, oq: false, funnelGoal: 'Grant PFA → Enable CRB', channels: 'Push, In-app, Email', done: 'Same as 5c', todo: 'Same as 5c', ref: '5c' },
+            { id: '5a', name: 'Gallery Sync Only (PFA Only)', pdf: false, pfa: true, np: false, sgs: true, si: true, crb: false, paid: false, oq: false, funnelGoal: 'Enable CRB', channels: 'In-app, Email', done: 'Discounted annual SKU', todo: 'SGS banner to forward users to OneDrive. OneDrive will ask for the requisite permissions and auto enable CRB for these users' },
+            { id: '5b', name: 'Gallery Sync Only (Both Permissions)', pdf: false, pfa: true, np: true, sgs: true, si: true, crb: false, paid: false, oq: false, funnelGoal: 'Enable CRB', channels: 'Push, In-app, Email', done: 'Same as 5a', todo: 'Same as 5a', ref: '5a' },
+            { id: '6c', name: 'Gallery Sync + PDF Signed In (No Permissions)', pdf: true, pfa: false, np: false, sgs: true, si: true, crb: false, paid: false, oq: false, funnelGoal: 'Grant PFA → Enable CRB', channels: 'In-app, Email', done: 'Same as 5c', todo: 'Same as 5c', ref: '5c' },
+            { id: '6d', name: 'Gallery Sync + PDF Signed In (NP Only)', pdf: true, pfa: false, np: true, sgs: true, si: true, crb: false, paid: false, oq: false, funnelGoal: 'Grant PFA → Enable CRB', channels: 'Push, In-app, Email', done: 'Same as 5c', todo: 'Same as 5c', ref: '5c' },
+            { id: '6a', name: 'Gallery Sync + PDF (PFA Only)', pdf: true, pfa: true, np: false, sgs: true, si: true, crb: false, paid: false, oq: false, funnelGoal: 'Enable CRB', channels: 'In-app, Email', done: 'Same as 5a', todo: 'Same as 5a', ref: '5a' },
+            { id: '6b', name: 'Gallery Sync + PDF (Both Permissions)', pdf: true, pfa: true, np: true, sgs: true, si: true, crb: false, paid: false, oq: false, funnelGoal: 'Enable CRB', channels: 'Push, In-app, Email', done: 'Same as 5a', todo: 'Same as 5a', ref: '5a' },
+            { id: '7a', name: 'CRB Free (No NP)', pdf: false, pfa: true, np: false, sgs: false, si: true, crb: true, paid: false, oq: false, funnelGoal: 'Grant NP → Upsell', channels: 'In-app, Email', done: 'Discounted annual SKU, OTD MOJs, Will see People / Florence discovery once enabled on their account', todo: 'AI MOJs, Custom AI notifications' },
+            { id: '7b', name: 'CRB Free (Full Permissions)', pdf: false, pfa: true, np: true, sgs: false, si: true, crb: true, paid: false, oq: false, funnelGoal: 'Upsell to Paid', channels: 'Push, In-app, Email', done: 'Same as 7a', todo: 'Same as 7a', ref: '7a' },
+            { id: '8a', name: 'CRB + PDF Free (No NP)', pdf: true, pfa: true, np: false, sgs: false, si: true, crb: true, paid: false, oq: false, funnelGoal: 'Grant NP → Upsell', channels: 'In-app, Email', done: 'Same as 7a', todo: 'Same as 7a', ref: '7a' },
+            { id: '8b', name: 'CRB + PDF Free (Full Permissions)', pdf: true, pfa: true, np: true, sgs: false, si: true, crb: true, paid: false, oq: false, funnelGoal: 'Upsell to Paid', channels: 'Push, In-app, Email', done: 'Same as 7a', todo: 'Same as 7a', ref: '7a' },
+            { id: '9a', name: 'Full Sync Free (No NP)', pdf: false, pfa: true, np: false, sgs: true, si: true, crb: true, paid: false, oq: false, funnelGoal: 'Grant NP → Upsell', channels: 'In-app, Email', done: 'Same as 7a', todo: 'Same as 7a', ref: '7a' },
+            { id: '9b', name: 'Full Sync Free (Full Permissions)', pdf: false, pfa: true, np: true, sgs: true, si: true, crb: true, paid: false, oq: false, funnelGoal: 'Upsell to Paid', channels: 'Push, In-app, Email', done: 'Same as 7a', todo: 'Same as 7a', ref: '7a' },
+            { id: '10a', name: 'Power User Free (No NP)', pdf: true, pfa: true, np: false, sgs: true, si: true, crb: true, paid: false, oq: false, funnelGoal: 'Grant NP → Upsell', channels: 'In-app, Email', done: 'Same as 7a', todo: 'Same as 7a', ref: '7a' },
+            { id: '10b', name: 'Power User Free (Full Permissions)', pdf: true, pfa: true, np: true, sgs: true, si: true, crb: true, paid: false, oq: false, funnelGoal: 'Upsell to Paid', channels: 'Push, In-app, Email', done: 'Same as 7a', todo: 'Same as 7a', ref: '7a' },
+            { id: '11a', name: 'CRB Paid (No NP)', pdf: false, pfa: true, np: false, sgs: false, si: true, crb: true, paid: true, oq: false, funnelGoal: 'Grant NP → Retain', channels: 'In-app, Email', done: 'Same as 7a', todo: 'Same as 7a', ref: '7a' },
+            { id: '11b', name: 'CRB Paid (Full Permissions)', pdf: false, pfa: true, np: true, sgs: false, si: true, crb: true, paid: true, oq: false, funnelGoal: 'Retain / Cross-sell', channels: 'Push, In-app, Email', done: 'Same as 7a', todo: 'Same as 7a', ref: '7a' },
+            { id: '12a', name: 'CRB + PDF Paid (No NP)', pdf: true, pfa: true, np: false, sgs: false, si: true, crb: true, paid: true, oq: false, funnelGoal: 'Grant NP → Retain', channels: 'In-app, Email', done: 'Same as 7a', todo: 'Same as 7a', ref: '7a' },
+            { id: '12b', name: 'CRB + PDF Paid (Full Permissions)', pdf: true, pfa: true, np: true, sgs: false, si: true, crb: true, paid: true, oq: false, funnelGoal: 'Retain / Cross-sell', channels: 'Push, In-app, Email', done: 'Same as 7a', todo: 'Same as 7a', ref: '7a' },
+            { id: '13a', name: 'Full Sync Paid (No NP)', pdf: false, pfa: true, np: false, sgs: true, si: true, crb: true, paid: true, oq: false, funnelGoal: 'Grant NP → Retain', channels: 'In-app, Email', done: 'Same as 7a', todo: 'Same as 7a', ref: '7a' },
+            { id: '13b', name: 'Full Sync Paid (Full Permissions)', pdf: false, pfa: true, np: true, sgs: true, si: true, crb: true, paid: true, oq: false, funnelGoal: 'Retain', channels: 'Push, In-app, Email', done: 'Same as 7a', todo: 'Same as 7a', ref: '7a' },
+            { id: '14a', name: 'Power User Paid (No NP)', pdf: true, pfa: true, np: false, sgs: true, si: true, crb: true, paid: true, oq: false, funnelGoal: 'Grant NP → Retain', channels: 'In-app, Email', done: 'Same as 7a', todo: 'Same as 7a', ref: '7a' },
+            { id: '14b', name: 'Power User Paid (Full Permissions)', pdf: true, pfa: true, np: true, sgs: true, si: true, crb: true, paid: true, oq: false, funnelGoal: 'Retain', channels: 'Push, In-app, Email', done: 'Same as 7a', todo: 'Same as 7a', ref: '7a' },
+            { id: '15a', name: 'Paid Inactive (No Permissions)', pdf: false, pfa: false, np: false, sgs: false, si: true, crb: false, paid: true, oq: false, funnelGoal: 'Grant PFA → CRB', channels: 'In-app, Email', done: 'Same as 3a', todo: 'Same as 3a', ref: '3a' },
+            { id: '15b', name: 'Paid Inactive (Full Permissions)', pdf: false, pfa: true, np: true, sgs: false, si: true, crb: false, paid: true, oq: false, funnelGoal: 'Enable CRB', channels: 'Push, In-app, Email', done: 'Same as 3d', todo: 'Same as 3d', ref: '3d' },
+            { id: '16a', name: 'Paid SGS, No CRB (No NP)', pdf: false, pfa: true, np: false, sgs: true, si: true, crb: false, paid: true, oq: false, funnelGoal: 'Enable CRB', channels: 'In-app, Email', done: 'Same as 4a', todo: 'Same as 4a', ref: '4a' },
+            { id: '16b', name: 'Paid SGS, No CRB (Full Permissions)', pdf: false, pfa: true, np: true, sgs: true, si: true, crb: false, paid: true, oq: false, funnelGoal: 'Enable CRB', channels: 'Push, In-app, Email', done: 'Same as 3d', todo: 'Same as 3d', ref: '3d' },
+            { id: 'OQa', name: 'Over Quota (Not Signed In)', pdf: 'any', pfa: 'any', np: 'any', sgs: 'any', si: false, crb: 'any', paid: 'any', oq: true, funnelGoal: 'Upsell to Paid', channels: 'Email only', done: 'Overquota emails', todo: '', isSpecial: 'over-quota' },
+            { id: 'OQb', name: 'Over Quota (Signed In)', pdf: 'any', pfa: 'any', np: 'any', sgs: 'any', si: true, crb: 'any', paid: 'any', oq: true, funnelGoal: 'Upsell to Paid', channels: 'Push, In-app, Email', done: 'Overquota emails', todo: 'Overquota push notifications', isSpecial: 'over-quota' }
+        ];
+
+        // Asset mapping - flat structure with sequences (_1, _2, _3 indicate progression)
+        const assets = {
+            '0': [{ path: 'assets/0-email-1-planned.md', type: 'email', status: 'planned' }],
+            '1a': [
+                { path: 'assets/1a-banner-1-done_1.png', type: 'banner', status: 'done', step: 1, label: 'PFA Permission Request' },
+                { path: 'assets/1a-banner-1-done_2.png', type: 'banner', status: 'done', step: 2, label: 'System Permission Dialog' },
+                { path: 'assets/1a-banner-1-done_3.png', type: 'banner', status: 'done', step: 3, label: 'Notification Setup' },
+                { path: 'assets/1a-banner-1-done_4.png', type: 'banner', status: 'done', step: 4, label: 'SSO Sign-in' },
+                { path: 'assets/1a-banner-1-planned_1-1.png', type: 'banner', status: 'planned', step: 1, label: 'Sign-in Page (Stock Photo)' }
+            ],
+            '1b': [
+                { path: 'assets/1b-push-1-done_1.png', type: 'push', status: 'done', step: 1 },
+                { path: 'assets/1b-push-1-done_2.png', type: 'push', status: 'done', step: 2 },
+                { path: 'assets/1a-banner-1-done_4.png', type: 'banner', status: 'planned', step: 1, label: 'SSO Sign-in' }
+            ],
+            '1c': [
+                { path: 'assets/1c-modal-1-done_1.png', type: 'modal', status: 'done', step: 1 },
+                { path: 'assets/1c-modal-1-done_2.png', type: 'modal', status: 'done', step: 2 },
+                { path: 'assets/1d-push-1-done_3.png', type: 'push', status: 'done', step: 3 },
+                { path: 'assets/1a-banner-1-done_4.png', type: 'banner', status: 'planned', step: 1, label: 'SSO Sign-in' }
+            ],
+            '1d': [
+                { path: 'assets/1d-push-1-done_1.png', type: 'push', status: 'done', step: 1 },
+                { path: 'assets/1d-push-1-done_2.png', type: 'push', status: 'done', step: 2 },
+                { path: 'assets/1d-push-1-done_3.png', type: 'push', status: 'done', step: 3 },
+                { path: 'assets/1a-banner-1-done_4.png', type: 'banner', status: 'planned', step: 1, label: 'SSO Sign-in' }
+            ],
+            '2a': [
+                { path: 'assets/2a-banner-1-planned_1.png', type: 'banner', status: 'planned', step: 1 },
+                { path: 'assets/2a-banner-1-planned_2.png', type: 'banner', status: 'planned', step: 2 }
+            ],
+            '3a': [
+                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Trial Eligible', halfPage: true },
+                { path: 'assets/3a-banner-1-done_trial-ineligible.png', type: 'banner', status: 'done', step: 2, label: 'Trial Ineligible', halfPage: true }
+            ],
+            '3b': [
+                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true }
+            ],
+            '3c': [
+                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 2, label: 'OTD MOJs' }
+            ],
+            '3d': [
+                { path: 'assets/3c-banner-1-done_OTD-notification.jpg', type: 'notification', status: 'done', step: 1, label: 'OTD Notification' },
+                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 3, label: 'OTD MOJs' }
+            ],
+            '4a': [
+                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 2, label: 'OTD MOJs' }
+            ],
+            '4b': [
+                { path: 'assets/3c-banner-1-done_OTD-notification.jpg', type: 'notification', status: 'done', step: 1, label: 'OTD Notification' },
+                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 3, label: 'OTD MOJs' }
+            ],
+            '5a': [
+                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/5a-banner-1-planned_1.png', type: 'banner', status: 'planned', step: 1 },
+                { path: 'assets/5a-banner-1-planned_2.png', type: 'banner', status: 'planned', step: 2 },
+                { path: 'assets/5a-banner-1-planned_3.png', type: 'banner', status: 'planned', step: 3 }
+            ],
+            '5b': [
+                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true }
+            ],
+            '6a': [
+                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true }
+            ],
+            '6b': [
+                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true }
+            ],
+            '7a': [
+                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 2, label: 'OTD MOJs' },
+                { path: 'assets/7a-modal-1-planned_AI-MOJ.png', type: 'moj', status: 'planned', step: 3, label: 'AI MOJ' }
+            ],
+            '7b': [
+                { path: 'assets/3c-banner-1-done_OTD-notification.jpg', type: 'notification', status: 'done', step: 1, label: 'OTD Notification' },
+                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 3, label: 'OTD MOJs' },
+                { path: 'assets/7a-modal-1-planned_AI-MOJ.png', type: 'moj', status: 'planned', step: 4, label: 'AI MOJ' }
+            ],
+            '8a': [
+                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 2, label: 'OTD MOJs' }
+            ],
+            '8b': [
+                { path: 'assets/3c-banner-1-done_OTD-notification.jpg', type: 'notification', status: 'done', step: 1, label: 'OTD Notification' },
+                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 3, label: 'OTD MOJs' }
+            ],
+            '9a': [
+                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 2, label: 'OTD MOJs' }
+            ],
+            '9b': [
+                { path: 'assets/3c-banner-1-done_OTD-notification.jpg', type: 'notification', status: 'done', step: 1, label: 'OTD Notification' },
+                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 3, label: 'OTD MOJs' }
+            ],
+            '10a': [
+                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 2, label: 'OTD MOJs' }
+            ],
+            '10b': [
+                { path: 'assets/3c-banner-1-done_OTD-notification.jpg', type: 'notification', status: 'done', step: 1, label: 'OTD Notification' },
+                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 3, label: 'OTD MOJs' }
+            ],
+            '11a': [
+                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 2, label: 'OTD MOJs' }
+            ],
+            '11b': [
+                { path: 'assets/3c-banner-1-done_OTD-notification.jpg', type: 'notification', status: 'done', step: 1, label: 'OTD Notification' },
+                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 3, label: 'OTD MOJs' },
+                { path: 'assets/7a-modal-1-planned_AI-MOJ.png', type: 'moj', status: 'planned', step: 4, label: 'AI MOJ' }
+            ],
+            '12a': [
+                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 2, label: 'OTD MOJs' }
+            ],
+            '12b': [
+                { path: 'assets/3c-banner-1-done_OTD-notification.jpg', type: 'notification', status: 'done', step: 1, label: 'OTD Notification' },
+                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 3, label: 'OTD MOJs' }
+            ],
+            '13a': [
+                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 2, label: 'OTD MOJs' }
+            ],
+            '13b': [
+                { path: 'assets/3c-banner-1-done_OTD-notification.jpg', type: 'notification', status: 'done', step: 1, label: 'OTD Notification' },
+                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 3, label: 'OTD MOJs' }
+            ],
+            '14a': [
+                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 2, label: 'OTD MOJs' }
+            ],
+            '14b': [
+                { path: 'assets/3c-banner-1-done_OTD-notification.jpg', type: 'notification', status: 'done', step: 1, label: 'OTD Notification' },
+                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 3, label: 'OTD MOJs' }
+            ],
+            '15a': [
+                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true }
+            ],
+            '15b': [
+                { path: 'assets/3c-banner-1-done_OTD-notification.jpg', type: 'notification', status: 'done', step: 1, label: 'OTD Notification' },
+                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 3, label: 'OTD MOJs' }
+            ],
+            '16a': [
+                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 2, label: 'OTD MOJs' }
+            ],
+            '16b': [
+                { path: 'assets/3c-banner-1-done_OTD-notification.jpg', type: 'notification', status: 'done', step: 1, label: 'OTD Notification' },
+                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 3, label: 'OTD MOJs' }
+            ],
+            'SGS-0a': [
+                { path: 'assets/5a-banner-1-planned_1.png', type: 'banner', status: 'planned', step: 1, label: 'SGS Migration Banner' },
+                { path: 'assets/5a-banner-1-planned_2.png', type: 'banner', status: 'planned', step: 2, label: 'Sign-in Prompt' },
+                { path: 'assets/1a-banner-1-done_4.png', type: 'banner', status: 'done', step: 3, label: 'SSO Sign-in' },
+                { path: 'assets/PFA_permission.png', type: 'banner', status: 'planned', step: 4, label: 'PFA Permission Request' },
+                { path: 'assets/5a-banner-1-planned_3.png', type: 'banner', status: 'planned', step: 5, label: 'CRB Setup' }
+            ],
+            'SGS-0b': [
+                { path: 'assets/PFA_permission.png', type: 'banner', status: 'planned', step: 1, label: 'PFA Permission Request' }
+            ],
+            '5c': [
+                { path: 'assets/PFA_permission.png', type: 'banner', status: 'planned', step: 1, label: 'PFA Permission Request' }
+            ],
+            'SGS-1a': [
+                { path: 'assets/5a-banner-1-planned_1.png', type: 'banner', status: 'planned', step: 1, label: 'SGS Migration Banner' },
+                { path: 'assets/5a-banner-1-planned_2.png', type: 'banner', status: 'planned', step: 2, label: 'Sign-in Prompt' },
+                { path: 'assets/1a-banner-1-done_4.png', type: 'banner', status: 'done', step: 3, label: 'SSO Sign-in' },
+                { path: 'assets/5a-banner-1-planned_3.png', type: 'banner', status: 'planned', step: 4, label: 'CRB Setup' }
+            ]
+        };
+
+        function handleFormerSGS() {
+            const formerSGS = document.getElementById('toggle-former-sgs').checked;
+
+            if (formerSGS) {
+                // Turn off Over Quota if Former SGS is on
+                document.getElementById('toggle-oq').checked = false;
+                // Disable all condition toggles
+                disableConditionToggles(true);
+                renderSegment(segments.find(s => s.id === '0'));
+            } else {
+                // Re-enable condition toggles
+                disableConditionToggles(false);
+                applyDependencies();
+                updateSegment();
+            }
+        }
+
+        function handleOverQuota() {
+            const oq = document.getElementById('toggle-oq').checked;
+
+            if (oq) {
+                // Turn off Former SGS if Over Quota is on
+                document.getElementById('toggle-former-sgs').checked = false;
+                // Only enable SI toggle, disable others
+                document.querySelectorAll('.condition-group input').forEach(input => {
+                    if (input.id === 'toggle-si') {
+                        input.disabled = false;
+                    } else {
+                        input.disabled = true;
+                    }
+                });
+            } else {
+                // Re-enable all toggles
+                disableConditionToggles(false);
+                applyDependencies();
+            }
+            updateSegment();
+        }
+
+        function disableConditionToggles(disable) {
+            document.querySelectorAll('.condition-group input').forEach(input => {
+                input.disabled = disable;
+            });
+        }
+
+        function updateSegment() {
+
+            const formerSGS = document.getElementById('toggle-former-sgs').checked;
+            const oq = document.getElementById('toggle-oq').checked;
+
+            // Handle Former SGS special case
+            if (formerSGS) {
+                renderSegment(segments.find(s => s.id === '0'));
+                return;
+            }
+
+            const pdf = document.getElementById('toggle-pdf').checked;
+            const pfa = document.getElementById('toggle-pfa').checked;
+            const np = document.getElementById('toggle-np').checked;
+            const sgs = document.getElementById('toggle-sgs').checked;
+            const si = document.getElementById('toggle-si').checked;
+            const crb = document.getElementById('toggle-crb').checked;
+            const paid = document.getElementById('toggle-paid').checked;
+
+            applyDependencies();
+
+            // Handle Over Quota special case
+            if (oq) {
+                const segment = si ? segments.find(s => s.id === 'OQb') : segments.find(s => s.id === 'OQa');
+                renderSegment(segment);
+                return;
+            }
+
+            const match = segments.find(s =>
+                s.isSpecial === undefined &&
+                s.pdf === pdf &&
+                s.pfa === pfa &&
+                s.np === np &&
+                s.sgs === sgs &&
+                s.si === si &&
+                s.crb === crb &&
+                s.paid === paid &&
+                s.oq === false
+            );
+
+            if (match) {
+                renderSegment(match);
+            } else {
+                renderNoMatch();
+            }
+        }
+
+        function applyDependencies() {
+            const si = document.getElementById('toggle-si').checked;
+            const pfa = document.getElementById('toggle-pfa').checked;
+            const oq = document.getElementById('toggle-oq').checked;
+
+            // CRB requires SI + PFA
+            if (!si || !pfa) {
+                document.getElementById('toggle-crb').checked = false;
+                document.getElementById('toggle-crb').disabled = true;
+            } else if (!oq) {
+                document.getElementById('toggle-crb').disabled = false;
+            }
+
+            // Paid requires SI
+            if (!si) {
+                document.getElementById('toggle-paid').checked = false;
+                document.getElementById('toggle-paid').disabled = true;
+            } else if (!oq) {
+                document.getElementById('toggle-paid').disabled = false;
+            }
+
+            // SGS is independent - does NOT require sign-in
+            // (Account linking happens at Samsung Gallery level, not OneDrive sign-in)
+        }
+
+        // Track current segment assets for filtering
+        let allSegmentAssets = [];
+        let currentFilter = null; // 'done', 'planned', or null for all
+        let currentSegment = null;
+
+        // Funnel progression mapping - what's the next logical step after completing this scenario's goal
+        const funnelSteps = {
+            // Not signed in, no PFA → Grant PFA
+            '1a': '1c',     // Dormant (No Perms) → Dormant (PFA Only)
+            '1b': '1d',     // Dormant (NP Only) → Dormant (Both Perms)
+            '2a': '2c',     // PDF (No Perms) → PDF (PFA Only)
+            '2b': '2d',     // PDF (NP Only) → PDF (Both Perms)
+            'SGS-0a': 'SGS-1a',  // SGS (No Perms) → SGS (PFA Only)
+            'SGS-0b': 'SGS-1b',  // SGS (NP Only) → SGS (Both Perms)
+            'SGS-0c': 'SGS-2a',  // SGS+PDF (No Perms) → SGS+PDF (PFA Only)
+            'SGS-0d': 'SGS-2b',  // SGS+PDF (NP Only) → SGS+PDF (Both Perms)
+
+            // Not signed in with PFA → Sign in
+            '1c': '3c',     // Dormant (PFA Only) → Signed-In (PFA Only)
+            '1d': '3d',     // Dormant (Both Perms) → Signed-In (Both Perms)
+            '2c': '4a',     // PDF (PFA Only) → Signed-In PDF (PFA Only)
+            '2d': '4b',     // PDF (Both Perms) → Signed-In PDF (Both Perms)
+            'SGS-1a': '5a', // SGS (PFA Only) → Gallery Sync (PFA Only)
+            'SGS-1b': '5b', // SGS (Both Perms) → Gallery Sync (Both Perms)
+            'SGS-2a': '6a', // SGS+PDF (PFA Only) → Gallery Sync+PDF (PFA Only)
+            'SGS-2b': '6b', // SGS+PDF (Both Perms) → Gallery Sync+PDF (Both Perms)
+
+            // Signed in without PFA → Grant PFA
+            '3a': '3c',     // Signed-In (No Perms) → Signed-In (PFA Only)
+            '3b': '3d',     // Signed-In (NP Only) → Signed-In (Both Perms)
+            '5c': '5a',     // Gallery Sync SI (No Perms) → Gallery Sync (PFA Only)
+            '5d': '5b',     // Gallery Sync SI (NP Only) → Gallery Sync (Both Perms)
+            '6c': '6a',     // Gallery Sync+PDF SI (No Perms) → Gallery Sync+PDF (PFA Only)
+            '6d': '6b',     // Gallery Sync+PDF SI (NP Only) → Gallery Sync+PDF (Both Perms)
+
+            // Signed in with PFA, no CRB → Enable CRB
+            '3c': '7a',     // Signed-In (PFA Only) → CRB Free (No NP)
+            '3d': '7b',     // Signed-In (Both Perms) → CRB Free (Full Perms)
+            '4a': '8a',     // Signed-In PDF (PFA Only) → CRB+PDF Free (No NP)
+            '4b': '8b',     // Signed-In PDF (Both Perms) → CRB+PDF Free (Full Perms)
+            '5a': '9a',     // Gallery Sync (PFA Only) → Full Sync Free (No NP)
+            '5b': '9b',     // Gallery Sync (Both Perms) → Full Sync Free (Full Perms)
+            '6a': '10a',    // Gallery Sync+PDF (PFA Only) → Power User Free (No NP)
+            '6b': '10b',    // Gallery Sync+PDF (Both Perms) → Power User Free (Full Perms)
+
+            // Free with CRB → Upsell to Paid
+            '7a': '11a',    // CRB Free (No NP) → CRB Paid (No NP)
+            '7b': '11b',    // CRB Free (Full Perms) → CRB Paid (Full Perms)
+            '8a': '12a',    // CRB+PDF Free (No NP) → CRB+PDF Paid (No NP)
+            '8b': '12b',    // CRB+PDF Free (Full Perms) → CRB+PDF Paid (Full Perms)
+            '9a': '13a',    // Full Sync Free (No NP) → Full Sync Paid (No NP)
+            '9b': '13b',    // Full Sync Free (Full Perms) → Full Sync Paid (Full Perms)
+            '10a': '14a',   // Power User Free (No NP) → Power User Paid (No NP)
+            '10b': '14b'    // Power User Free (Full Perms) → Power User Paid (Full Perms)
+        };
+
+        function renderSegment(segment) {
+            currentSegment = segment;
+            const panel = document.getElementById('results-panel');
+            currentFilter = null; // Reset filter when segment changes
+
+            let done = segment.done;
+            let todo = segment.todo;
+            let assetId = segment.id;
+
+            if (segment.ref) {
+                const refSegment = segments.find(s => s.id === segment.ref);
+                if (refSegment) {
+                    if (done.startsWith('Same as')) done = refSegment.done;
+                    if (todo.startsWith('Same as')) todo = refSegment.todo;
+                    assetId = segment.ref;
+                }
+            }
+
+            allSegmentAssets = assets[assetId] || [];
+
+            // Count assets by status
+            const doneAssets = allSegmentAssets.filter(a => a.status === 'done');
+            const plannedAssets = allSegmentAssets.filter(a => a.status === 'planned');
+            const hasDoneAssets = doneAssets.length > 0;
+            const hasPlannedAssets = plannedAssets.length > 0;
+
+            const priority = priorityMap[segment.id] || priorityMap[assetId] || 'medium';
+            const priorityLabel = getPriorityLabel(priority);
+            const priorityColor = getPriorityColor(priority);
+
+            panel.innerHTML = `
+                <div class="segment-info">
+                    <div class="segment-header">
+                        <span class="segment-id">${segment.id}</span>
+                        <span class="segment-name">${segment.name}</span>
+                        <span class="priority-badge" style="background: ${priorityColor}20; color: ${priorityColor}; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 600; margin-left: auto;">
+                            <span style="display: inline-block; width: 8px; height: 8px; background: ${priorityColor}; border-radius: 50%; margin-right: 6px;"></span>
+                            ${priorityLabel}
+                        </span>
+                    </div>
+
+                    <div class="segment-meta">
+                        <div class="meta-card">
+                            <h4>Funnel Goal</h4>
+                            <p>${segment.funnelGoal}</p>
+                        </div>
+                        <div class="meta-card">
+                            <h4>Available Channels</h4>
+                            <p>${segment.channels}</p>
+                        </div>
+                        <div class="meta-card">
+                            <h4>Reachability</h4>
+                            <p>${getReachabilityDesc(segment)}</p>
+                        </div>
+                    </div>
+
+                    <div class="status-section">
+                        <div class="status-card done ${hasDoneAssets ? 'clickable' : ''}" ${hasDoneAssets ? 'onclick="filterAssets(\'done\')"' : ''}>
+                            <h4>✓ Completed</h4>
+                            <p>${done || 'No completed work yet'}</p>
+                            ${hasDoneAssets ? `
+                                <div class="card-footer">
+                                    <span class="asset-count">📱 ${doneAssets.length} screen${doneAssets.length > 1 ? 's' : ''}</span>
+                                    <span class="view-hint">Click to view</span>
+                                </div>
+                            ` : ''}
+                        </div>
+                        <div class="status-card todo ${hasPlannedAssets ? 'clickable' : ''}" ${hasPlannedAssets ? 'onclick="filterAssets(\'planned\')"' : ''}>
+                            <h4>→ Upcoming</h4>
+                            <p>${todo || 'No pending work'}</p>
+                            ${hasPlannedAssets ? `
+                                <div class="card-footer">
+                                    <span class="asset-count">📱 ${plannedAssets.length} screen${plannedAssets.length > 1 ? 's' : ''}</span>
+                                    <span class="view-hint">Click to view</span>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="preview-section">
+                    <h3>Screen Flow Preview</h3>
+                    <div class="preview-container" id="preview-container">
+                        ${doneAssets.length > 0 ? renderPhoneWithNavigation(doneAssets) : (plannedAssets.length > 0 ? '<p style="color: #8b9dc3; text-align: center;">Click "Upcoming" to view planned designs</p>' : renderEmptyPreview())}
+                    </div>
+                    ${renderNextStepButton(segment)}
+                </div>
+            `;
+        }
+
+        function renderNextStepButton(segment) {
+            const nextStepId = funnelSteps[segment.id];
+            if (!nextStepId) return '';
+
+            const nextSegment = segments.find(s => s.id === nextStepId);
+            if (!nextSegment) return '';
+
+            return `
+                <div class="next-step-section" style="margin-top: 20px; padding: 16px; background: rgba(99, 102, 241, 0.1); border-radius: 12px; border: 1px solid rgba(99, 102, 241, 0.3);">
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+                        <div>
+                            <div style="font-size: 12px; color: #8b9dc3; margin-bottom: 4px;">Next Funnel Step</div>
+                            <div style="font-size: 14px; color: #fff;">
+                                <strong>${nextSegment.id}</strong>: ${nextSegment.name}
+                            </div>
+                            <div style="font-size: 12px; color: #6366f1; margin-top: 4px;">
+                                Goal: ${nextSegment.funnelGoal}
+                            </div>
+                        </div>
+                        <button onclick="navigateToNextStep('${nextStepId}')" style="
+                            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+                            color: white;
+                            border: none;
+                            padding: 10px 20px;
+                            border-radius: 8px;
+                            cursor: pointer;
+                            font-weight: 600;
+                            font-size: 13px;
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+                            transition: transform 0.2s, box-shadow 0.2s;
+                        " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(99, 102, 241, 0.4)';"
+                           onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                            View Next Step →
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function navigateToNextStep(segmentId) {
+            const nextSegment = segments.find(s => s.id === segmentId);
+            if (!nextSegment) return;
+
+            // Update toggles to match the next segment
+            if (nextSegment.pdf !== 'na') {
+                document.getElementById('toggle-pdf').checked = nextSegment.pdf;
+            }
+            if (nextSegment.pfa !== 'na') {
+                document.getElementById('toggle-pfa').checked = nextSegment.pfa;
+            }
+            if (nextSegment.np !== 'na') {
+                document.getElementById('toggle-np').checked = nextSegment.np;
+            }
+            if (nextSegment.sgs !== 'na') {
+                document.getElementById('toggle-sgs').checked = nextSegment.sgs;
+            }
+            if (nextSegment.si !== 'na') {
+                document.getElementById('toggle-si').checked = nextSegment.si;
+            }
+            if (nextSegment.crb !== 'na') {
+                document.getElementById('toggle-crb').checked = nextSegment.crb;
+            }
+            if (nextSegment.paid !== 'na') {
+                document.getElementById('toggle-paid').checked = nextSegment.paid;
+            }
+            if (nextSegment.oq !== 'na') {
+                document.getElementById('toggle-oq').checked = nextSegment.oq;
+            }
+
+            // Trigger segment update
+            updateSegment();
+
+            // Scroll to top of results panel
+            document.getElementById('results-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function filterAssets(status) {
+            if (currentFilter === status) {
+                // Clicking same filter goes back to showing completed only
+                currentFilter = 'done';
+            } else {
+                currentFilter = status;
+            }
+
+            // Update card selection state
+            document.querySelectorAll('.status-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            if (currentFilter === 'planned') {
+                const selectedCard = document.querySelector('.status-card.todo');
+                if (selectedCard) selectedCard.classList.add('selected');
+            }
+
+            // Filter assets - default to done, show planned only when explicitly selected
+            const filteredAssets = allSegmentAssets.filter(a => a.status === currentFilter);
+
+            // Filter indicator removed per user request - status cards are sufficient
+
+            // Update preview
+            const previewContainer = document.getElementById('preview-container');
+            previewContainer.innerHTML = filteredAssets.length > 0
+                ? renderPhoneWithNavigation(filteredAssets)
+                : renderEmptyPreview();
+        }
+
+        // Track current step for navigation
+        let currentStep = 0;
+        let currentAssets = [];
+
+        function renderPhoneWithNavigation(assetList) {
+            currentStep = 0;
+            currentAssets = assetList;
+            const total = assetList.length;
+            const asset = assetList[0];
+
+            const firstIsPlanned = asset.status === 'planned';
+            return `
+                <div class="phone-wrapper">
+                    <div class="phone-frame ${firstIsPlanned ? 'show-tbd' : ''}" id="phone-frame">
+                        <div class="design-tbd-badge">Design TBD</div>
+                        <div class="phone-screen">
+                            <div class="phone-content">
+                                <div class="slideshow-container" id="slideshow">
+                                    ${assetList.map((asset, idx) => `
+                                        <img src="${asset.path}"
+                                             class="${idx === 0 ? 'active' : ''}${asset.halfPage ? ' half-page' : ''}"
+                                             data-index="${idx}"
+                                             data-status="${asset.status}"
+                                             data-half-page="${asset.halfPage || false}"
+                                             onerror="this.style.display='none';">
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    ${total > 1 ? `
+                        <div class="nav-controls">
+                            <button class="nav-arrow" id="prev-btn" onclick="prevStep()" disabled>
+                                ←
+                            </button>
+                            <div class="step-counter">
+                                <span class="current" id="current-step">1</span> / ${total}
+                            </div>
+                            <button class="nav-arrow" id="next-btn" onclick="nextStep()">
+                                →
+                            </button>
+                        </div>
+                        <div class="step-dots" id="step-dots">
+                            ${assetList.map((_, idx) => `
+                                <div class="step-dot ${idx === 0 ? 'active' : ''}"
+                                     data-index="${idx}"
+                                     onclick="goToStep(${idx})"></div>
+                            `).join('')}
+                        </div>
+                        <div class="step-label" id="step-label">${asset.label || 'Step 1'}</div>
+                        <div class="asset-debug" id="asset-debug" style="font-size: 10px; color: #666; margin-top: 4px; font-family: monospace;">${asset.path}</div>
+                    ` : `
+                        <div class="step-label">${asset.label || ''}</div>
+                        <div class="asset-debug" style="font-size: 10px; color: #666; margin-top: 4px; font-family: monospace;">${asset.path}</div>
+                    `}
+                </div>
+            `;
+        }
+
+        function prevStep() {
+            if (currentStep > 0) {
+                goToStep(currentStep - 1);
+            }
+        }
+
+        function nextStep() {
+            if (currentStep < currentAssets.length - 1) {
+                goToStep(currentStep + 1);
+            }
+        }
+
+        function goToStep(index) {
+            currentStep = index;
+            const total = currentAssets.length;
+            const asset = currentAssets[index];
+
+            // Update images
+            const images = document.querySelectorAll('#slideshow img');
+            images.forEach((img, i) => {
+                img.classList.toggle('active', i === index);
+            });
+
+            // Update step counter
+            const counter = document.getElementById('current-step');
+            if (counter) counter.textContent = index + 1;
+
+            // Update dots
+            const dots = document.querySelectorAll('.step-dot');
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+
+            // Update label
+            const label = document.getElementById('step-label');
+            if (label) label.textContent = asset.label || `Step ${index + 1}`;
+
+            // Update debug asset path
+            const debug = document.getElementById('asset-debug');
+            if (debug) debug.textContent = asset.path;
+
+            // Update TBD badge visibility based on asset status
+            const phoneFrame = document.getElementById('phone-frame');
+            if (phoneFrame) {
+                phoneFrame.classList.toggle('show-tbd', asset.status === 'planned');
+            }
+
+            // Update button states
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            if (prevBtn) prevBtn.disabled = index === 0;
+            if (nextBtn) nextBtn.disabled = index === total - 1;
+        }
+
+        // Keyboard navigation support
+        document.addEventListener('keydown', (e) => {
+            if (currentAssets.length <= 1) return;
+            if (e.key === 'ArrowLeft') {
+                prevStep();
+            } else if (e.key === 'ArrowRight') {
+                nextStep();
+            }
+        });
+
+        function renderEmptyPreview() {
+            return `
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <div class="phone-content no-asset">
+                            No assets uploaded yet for this segment
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderNoMatch() {
+            const panel = document.getElementById('results-panel');
+            panel.innerHTML = `
+                <div class="segment-info">
+                    <div class="no-match">
+                        <h3>Invalid Combination</h3>
+                        <p>This combination of conditions doesn't match any defined segment.<br>Check the logical dependencies (e.g., CRB requires Sign-in + PFA).</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Priority mapping for segments
+        const priorityMap = {
+            '5a': 'high', '5b': 'high', '6a': 'high', '6b': 'high', // SGS users - highest risk
+            '1b': 'high', '1d': 'high', '2b': 'high', '2d': 'high', // Push-enabled dormant - can reach them
+            '0': 'high', // Former SGS - churned users
+            '7a': 'medium', '7b': 'medium', '8a': 'medium', '8b': 'medium', // CRB users - engaged
+            '3c': 'medium', '3d': 'medium', '4a': 'medium', '4b': 'medium', // Signed-in with PFA
+            '2a': 'medium', '1c': 'medium', // PDF/PFA only - can show in-app
+            '1a': 'low', // No permissions - hard to reach
+            '3a': 'low', '3b': 'low', // Files-only users
+            'OQa': 'low', 'OQb': 'low' // Over quota - existing flow
+        };
+
+        function getPriorityLabel(priority) {
+            const labels = { high: 'High Priority', medium: 'Medium Priority', low: 'Lower Priority' };
+            return labels[priority] || '';
+        }
+
+        function getPriorityColor(priority) {
+            const colors = { high: '#ef4444', medium: '#fbbf24', low: '#10b981' };
+            return colors[priority] || '#8b9dc3';
+        }
+
+        function getReachabilityDesc(segment) {
+            const channels = segment.channels.toLowerCase();
+            if (channels.includes('push') && channels.includes('email')) {
+                return 'Full reach: Push, In-app, Email';
+            } else if (channels.includes('push')) {
+                return 'Good reach: Push notifications enabled';
+            } else if (channels.includes('email')) {
+                return 'Moderate reach: Email + In-app only';
+            } else if (channels.includes('in-app')) {
+                return 'Limited reach: In-app only (must open app)';
+            }
+            return 'Reach dependent on user action';
+        }
+
+        // Teaching Toast System
+        let toastTimeout = null;
+        let pendingAction = null;
+
+        const dependencyMessages = {
+            'toggle-crb': {
+                message: '<strong>Camera Roll Backup</strong> requires both <strong>Signed In</strong> and <strong>Photos & Files Access</strong> to be enabled.',
+                getDeps: () => {
+                    const deps = [];
+                    if (!document.getElementById('toggle-si').checked) deps.push('toggle-si');
+                    if (!document.getElementById('toggle-pfa').checked) deps.push('toggle-pfa');
+                    return deps;
+                }
+            },
+            'toggle-paid': {
+                message: '<strong>Paid Subscription</strong> requires the user to be <strong>Signed In</strong>.',
+                getDeps: () => {
+                    const deps = [];
+                    if (!document.getElementById('toggle-si').checked) deps.push('toggle-si');
+                    return deps;
+                }
+            }
+            // Note: SGS does NOT require sign-in - account linking happens at Samsung Gallery level
+        };
+
+        function showToast(toggleId) {
+            const config = dependencyMessages[toggleId];
+            if (!config) return;
+
+            const deps = config.getDeps();
+            if (deps.length === 0) return;
+
+            pendingAction = { toggleId, deps };
+
+            const toast = document.getElementById('toast');
+            const message = document.getElementById('toast-message');
+            const action = document.getElementById('toast-action');
+
+            message.innerHTML = config.message;
+            action.textContent = deps.length > 1 ? 'Enable All' : 'Enable';
+
+            // Clear any existing timeout
+            if (toastTimeout) clearTimeout(toastTimeout);
+
+            toast.classList.add('show');
+
+            // Auto-hide after 5 seconds
+            toastTimeout = setTimeout(() => {
+                hideToast();
+            }, 5000);
+        }
+
+        function hideToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('show');
+            pendingAction = null;
+        }
+
+        function handleToastAction() {
+            if (!pendingAction) return;
+
+            // Enable all dependencies
+            pendingAction.deps.forEach(dep => {
+                document.getElementById(dep).checked = true;
+            });
+
+            // Now enable the originally requested toggle
+            document.getElementById(pendingAction.toggleId).disabled = false;
+            document.getElementById(pendingAction.toggleId).checked = true;
+
+            hideToast();
+            updateSegment();
+        }
+
+        // Add click listeners to labels for disabled toggles
+        function setupDisabledToggleListeners() {
+            document.querySelectorAll('.condition-group label').forEach(label => {
+                label.addEventListener('click', (e) => {
+                    const input = label.querySelector('input');
+                    if (input && input.disabled) {
+                        e.preventDefault();
+                        showToast(input.id);
+                    }
+                });
+            });
+        }
+
+        // Initialize
+        setupDisabledToggleListeners();
+        updateSegment();
+    </script>
+</body>
+</html>
