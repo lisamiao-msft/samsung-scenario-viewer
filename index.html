@@ -856,15 +856,15 @@
             { id: '1a', name: 'Dormant Install (No Permissions)', pdf: false, pfa: false, np: false, sgs: false, si: false, crb: false, paid: false, oq: false, funnelGoal: 'Grant permissions → Sign in', channels: 'In-app only', done: 'SSO experience with other MSA accounts on device', todo: 'Improved Sign-in page with Photos value prop' },
             { id: '1b', name: 'Dormant Install (NP Only)', pdf: false, pfa: false, np: true, sgs: false, si: false, crb: false, paid: false, oq: false, funnelGoal: 'Sign in', channels: 'Push, In-app', done: 'Push notifications to users on OneDrive value prop. Encourage user to sign in.', todo: 'SSO sign-in experience' },
             { id: '1c', name: 'Dormant Install (PFA Only)', pdf: false, pfa: true, np: false, sgs: false, si: false, crb: false, paid: false, oq: false, funnelGoal: 'Grant NP → Sign in', channels: 'In-app only', done: 'Turned on local MOJs for OTD and optimized sign-in flow by adding 1 more step to the disable flow', todo: 'SSO sign-in experience' },
-            { id: '1d', name: 'Dormant Install (Both Permissions)', pdf: false, pfa: true, np: true, sgs: false, si: false, crb: false, paid: false, oq: false, funnelGoal: 'Sign in', channels: 'Push, In-app', done: 'Local MOJ notifications increased in frequency; Push notifications to users on OneDrive value prop and encourage users to sign in.', todo: '' },
+            { id: '1d', name: 'Dormant Install (Both Permissions)', pdf: false, pfa: true, np: true, sgs: false, si: false, crb: false, paid: false, oq: false, funnelGoal: 'Sign in', channels: 'Push, In-app', done: 'Local MOJ notifications increased in frequency; Push notifications to users on OneDrive value prop and encourage users to sign in.', todo: 'SSO sign-in experience to match 1c' },
             { id: '2a', name: 'PDF-Only (No Permissions)', pdf: true, pfa: false, np: false, sgs: false, si: false, crb: false, paid: false, oq: false, funnelGoal: 'Grant permissions → Sign in', channels: 'In-app only', done: '', todo: '"Medium"-like banner + sign-in flow' },
             { id: '2b', name: 'PDF-Only (NP Only)', pdf: true, pfa: false, np: true, sgs: false, si: false, crb: false, paid: false, oq: false, funnelGoal: 'Sign in', channels: 'Push, In-app', done: 'Same as 1b', todo: 'Same as 1b', ref: '1b' },
             { id: '2c', name: 'PDF-Only (PFA Only)', pdf: true, pfa: true, np: false, sgs: false, si: false, crb: false, paid: false, oq: false, funnelGoal: 'Grant NP → Sign in', channels: 'In-app only', done: 'Same as 1c', todo: 'Same as 1c', ref: '1c' },
             { id: '2d', name: 'PDF-Only (Both Permissions)', pdf: true, pfa: true, np: true, sgs: false, si: false, crb: false, paid: false, oq: false, funnelGoal: 'Sign in', channels: 'Push, In-app', done: 'Same as 1d', todo: 'Same as 1d', ref: '1d' },
             { id: '3a', name: 'Signed-In Passive (No Permissions)', pdf: false, pfa: false, np: false, sgs: false, si: true, crb: false, paid: false, oq: false, funnelGoal: 'Grant PFA → Enable CRB', channels: 'In-app only', done: 'Discounted annual SKU', todo: '' },
-            { id: '3b', name: 'Signed-In Passive (NP Only)', pdf: false, pfa: false, np: true, sgs: false, si: true, crb: false, paid: false, oq: false, funnelGoal: 'Grant PFA → Enable CRB', channels: 'Push, In-app', done: 'Discounted annual SKU', todo: 'Push and in-app notifications to encourage user to give photos access & turn on CRB' },
+            { id: '3b', name: 'Signed-In Passive (NP Only)', pdf: false, pfa: false, np: true, sgs: false, si: true, crb: false, paid: false, oq: false, funnelGoal: 'Grant PFA → Enable CRB', channels: 'Push, In-app', done: 'Discounted annual SKU, Will see People / Florence discovery once PFA granted', todo: 'Push and in-app notifications to encourage user to give photos access & turn on CRB' },
             { id: '3c', name: 'Signed-In Passive (PFA Only)', pdf: false, pfa: true, np: false, sgs: false, si: true, crb: false, paid: false, oq: false, funnelGoal: 'Enable CRB', channels: 'In-app, Email', done: 'OTD MOJs, Will see People / Florence discovery once enabled on their account, Discounted Annual SKU', todo: 'In-app banner that CRB is off. Local MOJs' },
-            { id: '3d', name: 'Signed-In Passive (Both Permissions)', pdf: false, pfa: true, np: true, sgs: false, si: true, crb: false, paid: false, oq: false, funnelGoal: 'Enable CRB', channels: 'Push, In-app, Email', done: 'Same as 3c', todo: 'Same as 3c', ref: '3c' },
+            { id: '3d', name: 'Signed-In Passive (Both Permissions)', pdf: false, pfa: true, np: true, sgs: false, si: true, crb: false, paid: false, oq: false, funnelGoal: 'Enable CRB', channels: 'Push, In-app, Email', done: 'Same as 3c', todo: 'AI MOJs, Custom AI notifications', ref: '3c' },
             { id: '4a', name: 'Signed-In PDF (PFA Only)', pdf: true, pfa: true, np: false, sgs: false, si: true, crb: false, paid: false, oq: false, funnelGoal: 'Enable CRB', channels: 'In-app, Email', done: 'Same as 3c', todo: 'Same as 3c', ref: '3c' },
             { id: '4b', name: 'Signed-In PDF (Both Permissions)', pdf: true, pfa: true, np: true, sgs: false, si: true, crb: false, paid: false, oq: false, funnelGoal: 'Enable CRB', channels: 'Push, In-app, Email', done: 'Same as 3d', todo: 'Same as 3d', ref: '3d' },
             { id: 'SGS-0a', name: 'SGS Not Signed In (No Permissions)', pdf: false, pfa: false, np: false, sgs: true, si: false, crb: false, paid: false, oq: false, funnelGoal: 'Grant PFA → Sign in → Enable CRB', channels: 'In-app only', done: '', todo: 'PFA permission request for SGS users' },
@@ -909,7 +909,7 @@
 
         // Asset mapping - flat structure with sequences (_1, _2, _3 indicate progression)
         const assets = {
-            '0': [{ path: 'assets/0-email-1-planned.md', type: 'email', status: 'planned' }],
+            '0': [{ path: 'assets/0-email-1-planned.png', type: 'email', status: 'planned' }],
             '1a': [
                 { path: 'assets/1a-banner-1-done_1.png', type: 'banner', status: 'done', step: 1, label: 'PFA Permission Request' },
                 { path: 'assets/1a-banner-1-done_2.png', type: 'banner', status: 'done', step: 2, label: 'System Permission Dialog' },
@@ -939,155 +939,171 @@
                 { path: 'assets/2a-banner-1-planned_2.png', type: 'banner', status: 'planned', step: 2 }
             ],
             '3a': [
-                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Trial Eligible', halfPage: true },
-                { path: 'assets/3a-banner-1-done_trial-ineligible.png', type: 'banner', status: 'done', step: 2, label: 'Trial Ineligible', halfPage: true }
+                { path: 'assets/3a-banner-1-done_1-trial_eligible.png', type: 'banner', status: 'done', step: 1, label: 'Trial Eligible', halfPage: true },
+                { path: 'assets/3a-banner-1-done_2-trial_ineligible.png', type: 'banner', status: 'done', step: 2, label: 'Trial Ineligible', halfPage: true }
             ],
             '3b': [
-                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true }
+                { path: 'assets/3a-banner-1-done_1-trial_eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU' }
             ],
             '3c': [
-                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
-                { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 2, label: 'OTD MOJs' }
+                { path: 'assets/3a-banner-1-done_1-trial_eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU' },
+                { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 2, label: 'OTD MOJs, People / Florence Discovery' }
             ],
             '3d': [
                 { path: 'assets/3c-banner-1-done_OTD-notification.jpg', type: 'notification', status: 'done', step: 1, label: 'OTD Notification' },
-                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
-                { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 3, label: 'OTD MOJs' }
+                { path: 'assets/3a-banner-1-done_1-trial_eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU' },
+                { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 3, label: 'OTD MOJs, People / Florence Discovery' },
+                { path: 'assets/7a-modal-1-planned_AI-MOJ.png', type: 'moj', status: 'planned', step: 4, label: 'AI MOJ' }
             ],
             '4a': [
-                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3a-banner-1-done_1-trial_eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
                 { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 2, label: 'OTD MOJs' }
             ],
             '4b': [
                 { path: 'assets/3c-banner-1-done_OTD-notification.jpg', type: 'notification', status: 'done', step: 1, label: 'OTD Notification' },
-                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3a-banner-1-done_1-trial_eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
                 { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 3, label: 'OTD MOJs' }
             ],
             '5a': [
-                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3a-banner-1-done_1-trial_eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
                 { path: 'assets/5a-banner-1-planned_1.png', type: 'banner', status: 'planned', step: 1 },
                 { path: 'assets/5a-banner-1-planned_2.png', type: 'banner', status: 'planned', step: 2 },
                 { path: 'assets/5a-banner-1-planned_3.png', type: 'banner', status: 'planned', step: 3 }
             ],
             '5b': [
-                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true }
+                { path: 'assets/3a-banner-1-done_1-trial_eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true }
             ],
             '6a': [
-                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true }
+                { path: 'assets/3a-banner-1-done_1-trial_eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true }
             ],
             '6b': [
-                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true }
+                { path: 'assets/3a-banner-1-done_1-trial_eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true }
             ],
             '7a': [
-                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3a-banner-1-done_1-trial_eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
                 { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 2, label: 'OTD MOJs' },
                 { path: 'assets/7a-modal-1-planned_AI-MOJ.png', type: 'moj', status: 'planned', step: 3, label: 'AI MOJ' }
             ],
             '7b': [
                 { path: 'assets/3c-banner-1-done_OTD-notification.jpg', type: 'notification', status: 'done', step: 1, label: 'OTD Notification' },
-                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3a-banner-1-done_1-trial_eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
                 { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 3, label: 'OTD MOJs' },
                 { path: 'assets/7a-modal-1-planned_AI-MOJ.png', type: 'moj', status: 'planned', step: 4, label: 'AI MOJ' }
             ],
             '8a': [
-                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3a-banner-1-done_1-trial_eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
                 { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 2, label: 'OTD MOJs' }
             ],
             '8b': [
                 { path: 'assets/3c-banner-1-done_OTD-notification.jpg', type: 'notification', status: 'done', step: 1, label: 'OTD Notification' },
-                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3a-banner-1-done_1-trial_eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
                 { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 3, label: 'OTD MOJs' }
             ],
             '9a': [
-                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3a-banner-1-done_1-trial_eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
                 { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 2, label: 'OTD MOJs' }
             ],
             '9b': [
                 { path: 'assets/3c-banner-1-done_OTD-notification.jpg', type: 'notification', status: 'done', step: 1, label: 'OTD Notification' },
-                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3a-banner-1-done_1-trial_eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
                 { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 3, label: 'OTD MOJs' }
             ],
             '10a': [
-                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3a-banner-1-done_1-trial_eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
                 { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 2, label: 'OTD MOJs' }
             ],
             '10b': [
                 { path: 'assets/3c-banner-1-done_OTD-notification.jpg', type: 'notification', status: 'done', step: 1, label: 'OTD Notification' },
-                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3a-banner-1-done_1-trial_eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
                 { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 3, label: 'OTD MOJs' }
             ],
             '11a': [
-                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3a-banner-1-done_1-trial_eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
                 { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 2, label: 'OTD MOJs' }
             ],
             '11b': [
                 { path: 'assets/3c-banner-1-done_OTD-notification.jpg', type: 'notification', status: 'done', step: 1, label: 'OTD Notification' },
-                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3a-banner-1-done_1-trial_eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
                 { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 3, label: 'OTD MOJs' },
                 { path: 'assets/7a-modal-1-planned_AI-MOJ.png', type: 'moj', status: 'planned', step: 4, label: 'AI MOJ' }
             ],
             '12a': [
-                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3a-banner-1-done_1-trial_eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
                 { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 2, label: 'OTD MOJs' }
             ],
             '12b': [
                 { path: 'assets/3c-banner-1-done_OTD-notification.jpg', type: 'notification', status: 'done', step: 1, label: 'OTD Notification' },
-                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3a-banner-1-done_1-trial_eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
                 { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 3, label: 'OTD MOJs' }
             ],
             '13a': [
-                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3a-banner-1-done_1-trial_eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
                 { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 2, label: 'OTD MOJs' }
             ],
             '13b': [
                 { path: 'assets/3c-banner-1-done_OTD-notification.jpg', type: 'notification', status: 'done', step: 1, label: 'OTD Notification' },
-                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3a-banner-1-done_1-trial_eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
                 { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 3, label: 'OTD MOJs' }
             ],
             '14a': [
-                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3a-banner-1-done_1-trial_eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
                 { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 2, label: 'OTD MOJs' }
             ],
             '14b': [
                 { path: 'assets/3c-banner-1-done_OTD-notification.jpg', type: 'notification', status: 'done', step: 1, label: 'OTD Notification' },
-                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3a-banner-1-done_1-trial_eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
                 { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 3, label: 'OTD MOJs' }
             ],
             '15a': [
-                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true }
+                { path: 'assets/3a-banner-1-done_1-trial_eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true }
             ],
             '15b': [
                 { path: 'assets/3c-banner-1-done_OTD-notification.jpg', type: 'notification', status: 'done', step: 1, label: 'OTD Notification' },
-                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3a-banner-1-done_1-trial_eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
                 { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 3, label: 'OTD MOJs' }
             ],
             '16a': [
-                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3a-banner-1-done_1-trial_eligible.png', type: 'banner', status: 'done', step: 1, label: 'Discounted SKU', halfPage: true },
                 { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 2, label: 'OTD MOJs' }
             ],
             '16b': [
                 { path: 'assets/3c-banner-1-done_OTD-notification.jpg', type: 'notification', status: 'done', step: 1, label: 'OTD Notification' },
-                { path: 'assets/3a-banner-1-done_trial-eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
+                { path: 'assets/3a-banner-1-done_1-trial_eligible.png', type: 'banner', status: 'done', step: 2, label: 'Discounted SKU', halfPage: true },
                 { path: 'assets/3c-banner-1-done.png_OTD-MOJs.jpg', type: 'moj', status: 'done', step: 3, label: 'OTD MOJs' }
             ],
             'SGS-0a': [
-                { path: 'assets/5a-banner-1-planned_1.png', type: 'banner', status: 'planned', step: 1, label: 'SGS Migration Banner' },
-                { path: 'assets/5a-banner-1-planned_2.png', type: 'banner', status: 'planned', step: 2, label: 'Sign-in Prompt' },
-                { path: 'assets/1a-banner-1-done_4.png', type: 'banner', status: 'done', step: 3, label: 'SSO Sign-in' },
-                { path: 'assets/PFA_permission.png', type: 'banner', status: 'planned', step: 4, label: 'PFA Permission Request' },
-                { path: 'assets/5a-banner-1-planned_3.png', type: 'banner', status: 'planned', step: 5, label: 'CRB Setup' }
+                { path: 'assets/0-email-1-planned.png', type: 'email', status: 'planned', step: 1, label: 'Migration Email' },
+                { path: 'assets/5a-banner-1-planned_1.png', type: 'banner', status: 'planned', step: 2, label: 'SGS Migration Banner' },
+                { path: 'assets/5a-banner-1-planned_2.png', type: 'banner', status: 'planned', step: 3, label: 'Sign-in Prompt' },
+                { path: 'assets/1a-banner-1-done_4.png', type: 'banner', status: 'done', step: 4, label: 'SSO Sign-in' },
+                { path: 'assets/PFA_permission.png', type: 'banner', status: 'planned', step: 5, label: 'PFA Permission Request' },
+                { path: 'assets/5a-banner-1-planned_3.png', type: 'banner', status: 'planned', step: 6, label: 'CRB Setup' }
             ],
             'SGS-0b': [
-                { path: 'assets/PFA_permission.png', type: 'banner', status: 'planned', step: 1, label: 'PFA Permission Request' }
+                { path: 'assets/0-email-1-planned.png', type: 'email', status: 'planned', step: 1, label: 'Migration Email' },
+                { path: 'assets/SGS0b-push-1-planned.png', type: 'push', status: 'planned', step: 2, label: 'Push Notification' },
+                { path: 'assets/5a-banner-1-planned_1.png', type: 'banner', status: 'planned', step: 3, label: 'SGS Migration Banner' },
+                { path: 'assets/5a-banner-1-planned_2.png', type: 'banner', status: 'planned', step: 4, label: 'Sign-in Prompt' },
+                { path: 'assets/1a-banner-1-done_4.png', type: 'banner', status: 'done', step: 5, label: 'SSO Sign-in' },
+                { path: 'assets/5a-banner-1-planned_3.png', type: 'banner', status: 'planned', step: 6, label: 'CRB Setup' }
             ],
             '5c': [
                 { path: 'assets/PFA_permission.png', type: 'banner', status: 'planned', step: 1, label: 'PFA Permission Request' }
             ],
             'SGS-1a': [
-                { path: 'assets/5a-banner-1-planned_1.png', type: 'banner', status: 'planned', step: 1, label: 'SGS Migration Banner' },
-                { path: 'assets/5a-banner-1-planned_2.png', type: 'banner', status: 'planned', step: 2, label: 'Sign-in Prompt' },
-                { path: 'assets/1a-banner-1-done_4.png', type: 'banner', status: 'done', step: 3, label: 'SSO Sign-in' },
-                { path: 'assets/5a-banner-1-planned_3.png', type: 'banner', status: 'planned', step: 4, label: 'CRB Setup' }
+                { path: 'assets/0-email-1-planned.png', type: 'email', status: 'planned', step: 1, label: 'Migration Email' },
+                { path: 'assets/5a-banner-1-planned_1.png', type: 'banner', status: 'planned', step: 2, label: 'SGS Migration Banner' },
+                { path: 'assets/5a-banner-1-planned_2.png', type: 'banner', status: 'planned', step: 3, label: 'Sign-in Prompt' },
+                { path: 'assets/1a-banner-1-done_4.png', type: 'banner', status: 'done', step: 4, label: 'SSO Sign-in' },
+                { path: 'assets/5a-banner-1-planned_3.png', type: 'banner', status: 'planned', step: 5, label: 'CRB Setup' }
+            ],
+            'SGS-1b': [
+                { path: 'assets/0-email-1-planned.png', type: 'email', status: 'planned', step: 1, label: 'Migration Email' },
+                { path: 'assets/SGS1b-push-1-planned.png', type: 'push', status: 'planned', step: 2, label: 'Push Notification' },
+                { path: 'assets/5a-banner-1-planned_1.png', type: 'banner', status: 'planned', step: 3, label: 'SGS Migration Banner' },
+                { path: 'assets/5a-banner-1-planned_2.png', type: 'banner', status: 'planned', step: 4, label: 'Sign-in Prompt' },
+                { path: 'assets/1a-banner-1-done_4.png', type: 'banner', status: 'done', step: 5, label: 'SSO Sign-in' },
+                { path: 'assets/5a-banner-1-planned_3.png', type: 'banner', status: 'planned', step: 6, label: 'CRB Setup' }
             ]
         };
 
