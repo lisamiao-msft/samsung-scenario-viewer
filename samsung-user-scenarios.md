@@ -78,10 +78,10 @@ To fully use OneDrive as a photo management app, users must:
 | # | PDF | PFA | NP | SGS | SI | CRB | Paid | OQ | Segment Name | Funnel Goal | Notification Sequence | What's Already Been Done (either in beta or prod) | What's Left to Do |
 |---|:---:|:---:|:--:|:---:|:--:|:---:|:----:|:--:|--------------|-------------|----------------------|--------------------------|-------------------|
 | 0 | ✖️ | ✖️ | ✖️ | ✅ | ✖️ | ✖️ | ✖️ | ✖️ | Former SGS (Switched Device) | Re-engage via email | Email only | | Service mail scheduled for 2/27|
-| 1a | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | Dormant Install (No Permissions) | Grant permissions → Sign in | In-app only | SSO experience with other MSA accounts on device | Improved Sign-in page with Photos value prop |
-| 1b | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | Dormant Install (NP Only) | Sign in | Push, In-app | Push notifications to users on OneDrive value prop. Encourage user to sign in. | SSO sign-in experience |
-| 1c | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | Dormant Install (PFA Only) | Grant NP → Sign in | In-app only | Turned on local MOJs for OTD and optimized sign-in flow by adding 1 more step to the disable flow | SSO sign-in experience |
-| 1d | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | Dormant Install (Both Permissions) | Sign in | Push, In-app | Local MOJ notifications increased in frequency; Push notifications to users on OneDrive value prop and encourage users to sign in. | SSO sign-in experience to match 1c |
+| 1a | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | Dormant Install (No Permissions) | Grant permissions → Sign in | In-app only | SSO experience with other MSA accounts on device; Improved Sign-in page mockups (1a-banner-1-planned_1-1, 1a-banner-1-planned_1-2) | |
+| 1b | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | Dormant Install (NP Only) | Sign in | Push, In-app | Push notifications to users on OneDrive value prop. Encourage user to sign in; Improved Sign-in page mockups (1a-banner-1-planned_1-1, 1a-banner-1-planned_1-2) | |
+| 1c | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | Dormant Install (PFA Only) | Grant NP → Sign in | In-app only | Turned on local MOJs for OTD and optimized sign-in flow by adding 1 more step to the disable flow; Improved Sign-in page mockups (1a-banner-1-planned_1-1, 1a-banner-1-planned_1-2) | |
+| 1d | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | Dormant Install (Both Permissions) | Sign in | Push, In-app | Local MOJ notifications increased in frequency; Push notifications to users on OneDrive value prop and encourage users to sign in; Improved Sign-in page mockups (1a-banner-1-planned_1-1, 1a-banner-1-planned_1-2) | |
 | 2a | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | PDF-Only (No Permissions) | Grant permissions → Sign in | In-app only | | "Medium"-like banner + sign-in flow |
 | 2b | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | PDF-Only (NP Only) | Sign in | Push, In-app | Same as 1b | Same as 1b |
 | 2c | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | PDF-Only (PFA Only) | Grant NP → Sign in | In-app only | Same as 1c | Same as 1c |
@@ -129,7 +129,7 @@ To fully use OneDrive as a photo management app, users must:
 | 16a | ❌ | ✅ | ❌ | ✅ | ✅ | ❌ | ✅ | ❌ | Paid SGS, No CRB (No NP) | Enable CRB | In-app, Email | Same as 4a | Same as 4a |
 | 16b | ❌ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ | Paid SGS, No CRB (Full Permissions) | Enable CRB | Push, In-app, Email | Same as 3d | Same as 3d |
 | OQa | ⚪ | ⚪ | ⚪ | ⚪ | ❌ | ⚪ | ⚪ | ✅ | Over Quota (Not Signed In) | Upsell to Paid | Email only | Overquota emails | |
-| OQb | ⚪ | ⚪ | ⚪ | ⚪ | ✅ | ⚪ | ⚪ | ✅ | Over Quota (Signed In) | Upsell to Paid | Push, In-app, Email | Overquota emails | Overquota push notifications |
+| OQb | ⚪ | ⚪ | ⚪ | ⚪ | ✅ | ⚪ | ⚪ | ✅ | Over Quota (Signed In) | Upsell to Paid | Push, In-app, Email | Overquota emails | Overquota push notifications (OQb-notification-1-planned_1, OQb-notification-1-planned_2) |
 
 ---
 
